@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 10:30:18 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/25 12:26:04 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/09/25 16:27:19 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,14 @@ int	main(void) {
 
 	std::cout << "\033[1;32mForm tests: \n\033[0m" << "\n";
 
-	Form importantPaper("importantPaper", false, 5, 5);
+	Form importantPaper("importantPaper", false, 5, 3);
 	std::cout << "\033[1;32mChecking initial status of importantPaper: \n\033[0m" << "\n";
 	int grade = importantPaper.getGrade();
 	std::cout << "Min grade required for " << importantPaper.getName() << " is " << grade << "\n";
 	importantPaper.getStatus();
+	int execGrade = importantPaper.getExecGrade();
+	std::cout << "Min grade required for execution of " << importantPaper.getName() << " is " << execGrade << "\n";
+	std::cout << "\033[1;32m\nTrying to sign the importantPaper: \n\033[0m" << "\n";
 	Pekka.signForm(importantPaper);
 	Tarmo.signForm(importantPaper);
 }

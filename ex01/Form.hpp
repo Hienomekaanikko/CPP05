@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:26:01 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/25 12:23:51 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/09/25 14:58:23 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ class Form {
 		std::string getName() const;
 		bool getStatus() const;
 		int getGrade() const;
+		int getExecGrade() const;
 		void beSigned(Bureaucrat& suitguy);
 		class GradeTooHighException : public std::exception {
 			public:
