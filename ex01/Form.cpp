@@ -6,33 +6,45 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:26:03 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/19 14:33:40 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/09/25 12:25:14 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Form.hpp"
 
-Form::Form(): _name("default"), _isSigned(0), _grade(0) {}
-
-Form::Form(const std::string& name, const bool status, const int grade): _name(name), _isSigned(status) {
+static int validateGrade(int grade) {
 	if (grade < 1)
-		throw GradeTooHighException();
+		throw Form::GradeTooHighException();
 	else if (grade > 150)
-		throw GradeTooLowException();
-	else
-		_grade = grade;
+		throw Form::GradeTooLowException();
+	return grade;
 }
+
+Form::Form(): _name("default"), _isSigned(0), _grade(0), _execGrade(0) {}
+
+Form::Form(const std::string& name, const bool status, const int grade, const int execGrade): _name(name), _isSigned(status), _grade(validateGrade(grade)), _execGrade(validateGrade(execGrade)) {}
 
 Form::~Form() {}
 
-Form::Form(const Form& other): _name(other._name), _isSigned(other._isSigned), _grade(other._grade) {}
+Form::Form(const Form& other): _name(other._name), _isSigned(other._isSigned), _grade(other._grade), _execGrade(other._execGrade) {}
 
 Form& Form::operator=(const Form& other) {
 	if (this != &other){
 		_isSigned = other._isSigned;
-		_grade = other._grade;
 	}
 	return *this;
+}
+
+const char* Form::GradeTooHighException::what() const throw() {
+	return "grade is too high";
+}
+
+const char* Form::GradeTooLowException::what() const throw() {
+	return "grade is too low";
+}
+
+const char* Form::AlreadySignedException::what() const throw() {
+	return "the form has already been signed";
 }
 
 std::string Form::getName() const {
@@ -48,8 +60,16 @@ int Form::getGrade() const {
 }
 
 void Form::beSigned(Bureaucrat& suitguy) {
+	if (_isSigned == true)
+	{
+		throw AlreadySignedException();
+		return ;
+	}
 	if (suitguy.getGrade() <= _grade)
+	{
 		_isSigned = true;
+		std::cout << "Form " << this->_name << " was signed by " << suitguy.getName() << std::endl;
+	}
 	else
 		throw GradeTooLowException();
 }
