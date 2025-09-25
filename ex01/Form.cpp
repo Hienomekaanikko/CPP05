@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:26:03 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/25 12:25:14 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/09/25 15:04:51 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,8 @@ std::ostream &operator<<(std::ostream &os, Form const &other)
 {
 	os << other.getName() << ", grade required " << other.getGrade() << ", signature status " << other.getStatus() << "\n";
 	return (os);
+}
+
+int Form::getExecGrade() const {
+	return _execGrade;
 }
