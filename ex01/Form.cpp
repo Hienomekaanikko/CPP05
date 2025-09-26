@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/19 13:26:03 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/25 15:04:51 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/09/26 10:47:37 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int validateGrade(int grade) {
 
 Form::Form(): _name("default"), _isSigned(0), _grade(0), _execGrade(0) {}
 
-Form::Form(const std::string& name, const bool status, const int grade, const int execGrade): _name(name), _isSigned(status), _grade(validateGrade(grade)), _execGrade(validateGrade(execGrade)) {}
+Form::Form(const std::string& name, const int grade, const int execGrade): _name(name), _isSigned(false), _grade(validateGrade(grade)), _execGrade(validateGrade(execGrade)) {}
 
 Form::~Form() {}
 
@@ -43,10 +43,6 @@ const char* Form::GradeTooLowException::what() const throw() {
 	return "grade is too low";
 }
 
-const char* Form::AlreadySignedException::what() const throw() {
-	return "the form has already been signed";
-}
-
 std::string Form::getName() const {
 	return _name;
 }
@@ -60,23 +56,21 @@ int Form::getGrade() const {
 }
 
 void Form::beSigned(Bureaucrat& suitguy) {
-	if (_isSigned == true)
-	{
-		throw AlreadySignedException();
-		return ;
-	}
 	if (suitguy.getGrade() <= _grade)
 	{
 		_isSigned = true;
-		std::cout << "Form " << this->_name << " was signed by " << suitguy.getName() << std::endl;
+		std::cout << suitguy.getName() << " signed " << this->getName() << std::endl;
 	}
 	else
+	{
+		std::cout << "Failed: ";
 		throw GradeTooLowException();
+	}
 }
 
 std::ostream &operator<<(std::ostream &os, Form const &other)
 {
-	os << other.getName() << ", grade required " << other.getGrade() << ", signature status " << other.getStatus() << "\n";
+	os << other.getName() << ", grade required to sign: " << other.getGrade() << ", signature status: " << other.getStatus() << ", grade required for execution: " << other.getExecGrade() << "\n";
 	return (os);
 }
 
