@@ -5,90 +5,102 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/19 13:26:03 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/26 10:03:22 by msuokas          ###   ########.fr       */
+/*   Created: 2025/09/29 14:17:02 by msuokas           #+#    #+#             */
+/*   Updated: 2025/09/30 10:52:30 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "AForm.hpp"
 
-static int validateGrade(int grade) {
+AForm::AForm(): _name("defaultForm"), _signed(false), _grade(1), _execGrade(10) {}
+
+int AForm::validateGrade(const int grade) {
+	if (grade > 150)
+		throw GradeTooLowException();
 	if (grade < 1)
-		throw AForm::GradeTooHighException();
-	else if (grade > 150)
-		throw AForm::GradeTooLowException();
+		throw GradeTooHighException();
 	return grade;
 }
 
-AForm::AForm(): _name("default"), _isSigned(0), _grade(0), _execGrade(0) {}
-
-AForm::AForm(const std::string& name, const int grade, const int execGrade): _name(name), _isSigned(false), _grade(validateGrade(grade)), _execGrade(validateGrade(execGrade)) {}
+AForm::AForm(const std::string& name, const int grade, const int execGrade):
+	_name(name),
+	_grade(validateGrade(grade)),
+	_execGrade(validateGrade(execGrade)) {
+		_signed = false;
+	}
 
 AForm::~AForm() {}
 
-AForm::AForm(const AForm& other): _name(other._name), _isSigned(other._isSigned), _grade(other._grade), _execGrade(other._execGrade) {}
-
-AForm& AForm::operator=(const AForm& other) {
-	if (this != &other){
-		_isSigned = other._isSigned;
-	}
-	return *this;
-}
-
-const char* AForm::GradeTooHighException::what() const throw() {
-	return "grade is too high";
-}
-
-const char* AForm::GradeTooLowException::what() const throw() {
-	return "grade is too low";
-}
+AForm::AForm(const AForm& other):
+	_name(other._name),
+	_signed(other._signed),
+	_grade(other._grade),
+	_execGrade(other._execGrade) {}
 
 std::string AForm::getName() const {
 	return _name;
 }
 
-bool AForm::getStatus() const {
-	return _isSigned;
+bool AForm::getSignedStatus() const {
+	return _signed;
 }
 
 int AForm::getGrade() const {
 	return _grade;
 }
 
-void AForm::beSigned(Bureaucrat& suitguy) {
-	if (suitguy.getGrade() <= _grade)
-	{
-		_isSigned = true;
-		std::cout << suitguy.getName() << " signed " << this->getName() << std::endl;
-	}
-	else
-	{
-		std::cout << suitguy.getName() << " cannot sign: ";
-		throw GradeTooLowException();
-	}
+int AForm::getExecGrade() const {
+	return _execGrade;
 }
 
-void AForm::execute(Bureaucrat const& executor) const {
-	if (this->_isSigned)
+const char* AForm::GradeTooLowException::what() const throw() {
+	return "grade too low";
+}
+
+const char* AForm::GradeTooHighException::what() const throw() {
+	return "grade too high";
+}
+
+const char* AForm::FormNotSignedException::what() const throw() {
+	return "form is not signed for execution";
+}
+
+void AForm::beSigned(Bureaucrat& SuitGuy) {
+	if (SuitGuy.getGrade() > _grade)
 	{
-		if (this->_execGrade >= executor.getGrade())
-		{
-			std::cout << executor.getName() << " executed " << this->getName() << "\n";
-			this->action();
-		}
-		else
-			std::cout << "Cannot execute " << this->getName() << ": Too low grade for execution.";
+		std::cout << "Bureaucrat cannot sign: ";
+		throw GradeTooLowException();
 	}
-	else
-		std::cout << "Cannot execute " << this->getName() << ": Not signed.\n";
+	_signed = true;
+	std::cout <<  "\033[1;36m" << SuitGuy.getName() << " signed the " << _name << "\n" << "\033[0m";
 }
 
 std::ostream &operator<<(std::ostream &os, AForm const &other)
 {
-	os << other.getName() << ", grade required to sign: " << other.getGrade() << ", signature status: " << other.getStatus() << ", grade required for execution: " << other.getExecGrade() << "\n";
+	os << "\033[1;36m"
+	<< "Form status: "
+	<< other.getName()
+	<< ", signing grade: "
+	<< other.getGrade()
+	<< ", execution grade: "
+	<< other.getExecGrade()
+	<< ", signed status: "
+	<< other.getSignedStatus()
+	<< "\033[0m" << std::endl;
 	return (os);
 }
 
-int AForm::getExecGrade() const {
-	return _execGrade;
+void AForm::execute(Bureaucrat const & executor) const {
+	if (executor.getGrade() > _execGrade)
+	{
+		std::cout << "Bureaucrat cannot execute: ";
+		throw GradeTooLowException();
+	}
+	if (getSignedStatus() == false)
+	{
+		std::cout << "Bureaucrat cannot execute: ";
+		throw FormNotSignedException();
+	}
+	action();
+	std::cout << "\033[1;36m" << executor.getName() << " excecuted " << getName() << "\033[0m" << std::endl;
 }

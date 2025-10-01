@@ -5,27 +5,20 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/26 14:24:15 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/26 15:22:05 by msuokas          ###   ########.fr       */
+/*   Created: 2025/10/01 13:13:29 by msuokas           #+#    #+#             */
+/*   Updated: 2025/10/01 13:40:41 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Intern.hpp"
-#include "PresidentialPardonForm.hpp"
-#include "ShrubberyCreationForm.hpp"
-#include "RobotomyRequestForm.hpp"
 
 Intern::Intern() {}
 
-Intern::~Intern() {}
+Intern::~Intern(){}
 
 Intern::Intern(const Intern& other) {}
 
-Intern& Intern::operator=(const Intern& other) {
-	return *this;
-}
-
-AForm* Intern::makeForm(const std::string formName, const std::string formTarget) {
+AForm* Intern::makeForm(const std::string& formName, const std::string& formTarget) {
 	std::string forms[] = {"PresidentialPardonForm", "RobotomyRequestForm", "ShrubberyCreationForm"};
 
 	AForm* (*formCreators[])(const std::string&) = {
