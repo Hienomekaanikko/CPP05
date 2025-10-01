@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/19 10:30:13 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/19 12:58:31 by msuokas          ###   ########.fr       */
+/*   Created: 2025/09/29 11:13:24 by msuokas           #+#    #+#             */
+/*   Updated: 2025/09/29 13:51:49 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,26 @@
 
 class Bureaucrat {
 	private:
-		const std::string _name;
-		int _grade;
+		const std::string	_name;
+		int	_grade;
 	public:
 		Bureaucrat();
 		Bureaucrat(const std::string& name, const int grade);
-		~Bureaucrat();
 		Bureaucrat(const Bureaucrat& other);
-		Bureaucrat& operator=(const Bureaucrat& other);
+		Bureaucrat& operator=(const Bureaucrat& other) = delete;
+		~Bureaucrat();
 
-		std::string getName() const;
+		const std::string getName() const;
 		int getGrade() const;
-		void incrementGrade();
-		void decrementGrade();
+		void increment();
+		void decrement();
 
 		class GradeTooHighException : public std::exception {
-			public:
-				virtual const char *what() const throw();
+			const char *what() const throw();
 		};
-
 		class GradeTooLowException : public std::exception {
-			public:
-				virtual const char *what() const throw();
+			const char *what() const throw();
 		};
 };
 
-std::ostream &operator<<(std::ostream & os, Bureaucrat const &other);
+std::ostream &operator<<(std::ostream& os, Bureaucrat const &other);

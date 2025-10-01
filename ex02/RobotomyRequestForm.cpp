@@ -5,29 +5,29 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/26 10:15:58 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/26 12:59:51 by msuokas          ###   ########.fr       */
+/*   Created: 2025/09/30 10:56:49 by msuokas           #+#    #+#             */
+/*   Updated: 2025/10/01 10:16:50 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RobotomyRequestForm.hpp"
 
-RobotomyRequestForm::RobotomyRequestForm(): AForm("RobotomyDefaultForm", 72, 45), _target("DefaultTarget") {}
-
-RobotomyRequestForm::RobotomyRequestForm(const std::string& target): AForm("RobotomyForm", 72, 45), _target(target) {}
+RobotomyRequestForm::RobotomyRequestForm(): AForm("DefaultRobotomyRequestForm", 72, 45), _target("DefaultTarget"){}
 
 RobotomyRequestForm::~RobotomyRequestForm() {}
 
-RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& other) {
-	*this = other;
-}
+RobotomyRequestForm::RobotomyRequestForm(const std::string& target): AForm("RoboromyRequestForm", 72, 45), _target(target) {}
+
+RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& other): _target(other._target){}
 
 RobotomyRequestForm& RobotomyRequestForm::operator=(const RobotomyRequestForm& other) {
-	_target = other._target;
+	if (this != &other) {
+		_target = other._target;
+	}
 	return *this;
 }
 
-const char* RobotomyRequestForm::RobotomizationException::what() const throw() {
+const char* RobotomyRequestForm::RobotomyException::what() const throw() {
 	return "Robotomy failed";
 }
 
@@ -35,11 +35,11 @@ void RobotomyRequestForm::action() const {
 	int nb = rand() % 2;
 
 	if (nb == 1)
-		std::cout << "BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR! " << " robotomization of " << _target << " succeeded!" << std::endl;
+		std::cout << "\033[1;36m" << "BRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR! " << "Robotomization of " << _target << " succeeded!" << "\033[0m" << std::endl;
 	else
-		throw RobotomizationException();
+		throw RobotomyException();
 }
 
-std::string& RobotomyRequestForm::getTarget() {
+std::string RobotomyRequestForm::getTarget() const {
 	return _target;
 }

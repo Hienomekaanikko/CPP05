@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/19 10:30:18 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/26 11:28:05 by msuokas          ###   ########.fr       */
+/*   Created: 2025/09/29 11:12:58 by msuokas           #+#    #+#             */
+/*   Updated: 2025/09/30 10:50:20 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,116 @@
 #include "Form.hpp"
 
 int	main(void) {
-	std::cout << "\033[1;32mTrying grade more than 150 (too low):\n\033[0m" << "\n";
-	try {
-		Bureaucrat Seppo("Seppo", 500);
-	} catch (const std::exception &e) {
-		std::cerr << "Exception: " << e.what() << "\n";
-	}
-	std::cout << "\n";
+	std::cout << "\033[1;32m-------------------------------------------------------------------------\n\033[0m" << "\n";
+	std::cout << "\033[1;32m***Creating a form with appropriate grades***\n\033[0m" << "\n";
 
-	std::cout << "\033[1;32mTrying grade less than 1 (too high):\n\033[0m" << "\n";
+	Form* form = nullptr;
 	try {
-		Bureaucrat Teppo("Teppo", 0);
-	} catch (const std::exception &e) {
-		std::cerr << "Exception: " << e.what() << "\n";
+		form = new Form("newForm", 5, 5);
+	} catch (std::exception &e) {
+		std::cout << "Exception: " << e.what() << "\n";
 	}
 
-	std::cout << "\033[1;32m\nTrying appropriate grade 150, \033[0m";
-	Bureaucrat Tarmo("Tarmo", 150);
+	std::cout << "\033[1;36mForm was created:\n\033[0m" << *form << "\n";
 
-	std::cout << "\033[1;32mand testing the << overload:\n\033[0m" << "\n";
-	std::cout << Tarmo;
+	std::cout << "\033[1;32m***Creating a bureaucrat with good enough grade for signing and excecution***\n\033[0m" << "\n";
 
-	std::cout << "\033[1;32m\n\nTesting lowering the grade too low (from 150 to 151):\n\033[0m" << "\n";
+	Bureaucrat* bure = nullptr;
 	try {
-		Tarmo.decrementGrade();
-	} catch (const std::exception &e) {
-		std::cerr << "Exception: " << e.what() << "\n";
+		bure = new Bureaucrat("Jorma", 3);
+	} catch (std::exception &e) {
+		std::cout << "Exception: " << e.what() << "\n";
 	}
 
-	Bureaucrat Pekka("Pekka", 1);
-	std::cout << "\033[1;32m\nTesting incrementing the grade too high (from 1 to 0):\n\033[0m" << "\n";
+	std::cout << "\033[1;36mBureaucrat was created:\n\033[0m" << *bure;
+
+	std::cout << "\033[1;32m\n***Trying to sign a form with the capable bureaucrat***\n\033[0m" << "\n";
+
 	try {
-		Pekka.incrementGrade();
-	} catch (const std::exception &e) {
-		std::cerr << "Exception: " << e.what() << "\n";
+		form->beSigned(*bure);
+	} catch (std::exception &e) {
+		std::cout << "Exception: " << e.what() << "\n";
+	}
+
+	std::cout << "\033[1;36m\nForm after signing:\n\033[0m" << *form << "\n";
+
+	std::cout << "\033[1;32m-------------------------------------------------------------------------\n\033[0m" << "\n";
+
+	std::cout << "\033[1;32m***Creating a form with appropriate grades***\n\033[0m" << "\n";
+
+	Form* form2 = nullptr;
+	try {
+		form2 = new Form("newForm", 2, 1);
+	} catch (std::exception &e) {
+		std::cout << "Exception: " << e.what() << "\n";
+	}
+
+	std::cout << "\033[1;36mForm was created:\n\033[0m" << *form2 << "\n";
+
+	std::cout << "\033[1;32m***Creating a bureaucrat with too low grade for signing and excecution***\033[0m" << "\n";
+
+	Bureaucrat* bure2 = nullptr;
+	try {
+		bure2 = new Bureaucrat("Jorma", 3);
+	} catch (std::exception &e) {
+		std::cout << "Exception: " << e.what() << "\n";
+	}
+
+	std::cout << "\n\033[1;36mBureaucrat was created:\n\033[0m" << *bure2;
+
+	std::cout << "\033[1;32m\n***Trying to sign a form with not capable bureaucrat***\n\033[0m" << "\n";
+
+	try {
+		form2->beSigned(*bure2);
+	} catch (std::exception &e) {
+		std::cout << "Exception: " << e.what() << "\n";
 	}
 
 	std::cout << "\033[1;32m\n-------------------------------------------------------------------------\n\033[0m" << "\n";
 
-	std::cout << "\033[1;32mForm tests: \n\033[0m" << "\n";
+	std::cout << "\033[1;32m***Creating a form with too high grades***\n\033[0m" << "\n";
 
-	Form importantPaper("importantPaper", 5, 3);
-	std::cout << "\033[1;32mChecking initial status of importantPaper: \n\033[0m" << "\n";
-	int grade = importantPaper.getGrade();
-	std::cout << "Min grade required for " << importantPaper.getName() << " is " << grade << "\n";
-	importantPaper.getStatus();
-	int execGrade = importantPaper.getExecGrade();
-	std::cout << "Min grade required for execution of " << importantPaper.getName() << " is " << execGrade << "\n";
-	std::cout << "\033[1;32m\nTrying to sign the importantPaper: \n\033[0m" << "\n";
-	Pekka.signForm(importantPaper);
-	Tarmo.signForm(importantPaper);
+	Form* form3 = nullptr;
+	try {
+		form3 = new Form("newForm", 0, 0);
+	} catch (std::exception &e) {
+		std::cout << "Exception: " << e.what() << "\n";
+	}
+
+	std::cout << "\033[1;32m\n***Creating a bureaucrat with too high grade***\n\033[0m" << "\n";
+
+	Bureaucrat* bure3 = nullptr;
+	try {
+		bure3 = new Bureaucrat("Seppo", 0);
+	} catch (std::exception &e) {
+		std::cout << "Exception: " << e.what() << "\n";
+	}
+
+	std::cout << "\033[1;32m\n-------------------------------------------------------------------------\n\033[0m" << "\n";
+
+	std::cout << "\033[1;32m***Creating a form with too low grades***\n\033[0m" << "\n";
+
+	Form* form4 = nullptr;
+	try {
+		form4 = new Form("newForm", 151, 151);
+	} catch (std::exception &e) {
+		std::cout << "Exception: " << e.what() << "\n";
+	}
+
+	std::cout << "\033[1;32m\n***Creating a bureaucrat with too low grade***\n\033[0m" << "\n";
+
+	Bureaucrat* bure4 = nullptr;
+	try {
+		bure4 = new Bureaucrat("Seppo", 151);
+	} catch (std::exception &e) {
+		std::cout << "Exception: " << e.what() << "\n";
+	}
+	delete form;
+	delete form2;
+	delete form3;
+	delete form4;
+	delete bure;
+	delete bure2;
+	delete bure3;
+	delete bure4;
 }

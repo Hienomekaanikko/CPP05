@@ -5,54 +5,44 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/19 10:30:16 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/19 13:08:09 by msuokas          ###   ########.fr       */
+/*   Created: 2025/09/29 11:12:56 by msuokas           #+#    #+#             */
+/*   Updated: 2025/09/29 14:03:01 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bureaucrat.hpp"
 
-Bureaucrat::Bureaucrat(): _name("default"), _grade(0) {}
+Bureaucrat::Bureaucrat(): _name("default"), _grade(1) {}
 
-Bureaucrat::Bureaucrat(const std::string& name, const int grade): _name(name) {
-	if (grade < 1)
-		throw GradeTooHighException();
-	else if (grade > 150)
+Bureaucrat::Bureaucrat(const std::string& name, const int grade): _name(name), _grade(grade){
+	if (grade > 150)
 		throw GradeTooLowException();
-	_grade = grade;
+	else if (grade < 1)
+		throw GradeTooHighException();
 }
-
-Bureaucrat::~Bureaucrat() {}
 
 Bureaucrat::Bureaucrat(const Bureaucrat& other): _name(other._name), _grade(other._grade) {}
 
-Bureaucrat& Bureaucrat::operator=(const Bureaucrat& other) {
-	if (this != &other){
-		_grade = other._grade;
-	}
-	return *this;
+Bureaucrat::~Bureaucrat() {}
+
+void Bureaucrat::increment() {
+	if (_grade == 150)
+		throw GradeTooLowException();
+	_grade++;
 }
 
-std::string Bureaucrat::getName() const {
+void Bureaucrat::decrement() {
+	if (_grade == 1)
+		throw GradeTooHighException();
+	_grade--;
+}
+
+const std::string Bureaucrat::getName() const {
 	return _name;
 }
 
 int Bureaucrat::getGrade() const {
 	return _grade;
-}
-
-void Bureaucrat::incrementGrade() {
-	if (_grade > 1)
-		_grade--;
-	else
-		throw GradeTooHighException();
-}
-
-void Bureaucrat::decrementGrade() {
-	if (_grade < 150)
-		_grade++;
-	else
-		throw GradeTooLowException();
 }
 
 const char* Bureaucrat::GradeTooHighException::what() const throw() {
