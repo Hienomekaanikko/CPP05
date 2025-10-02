@@ -6,17 +6,23 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 10:56:49 by msuokas           #+#    #+#             */
-/*   Updated: 2025/10/01 10:16:50 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/10/02 14:20:52 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RobotomyRequestForm.hpp"
 
-RobotomyRequestForm::RobotomyRequestForm(): AForm("DefaultRobotomyRequestForm", 72, 45), _target("DefaultTarget"){}
+RobotomyRequestForm::RobotomyRequestForm(): AForm("DefaultRobotomyRequestForm", 72, 45), _target("DefaultTarget"){
+	std::cout << "RobotomyRequestForm with target " << _target << " was created"  << std::endl;
+}
 
-RobotomyRequestForm::~RobotomyRequestForm() {}
+RobotomyRequestForm::~RobotomyRequestForm() {
+	std::cout << "RobotomyRequestForm with target " << _target << " was thrown into bin"  << std::endl;
+}
 
-RobotomyRequestForm::RobotomyRequestForm(const std::string& target): AForm("RoboromyRequestForm", 72, 45), _target(target) {}
+RobotomyRequestForm::RobotomyRequestForm(const std::string& target): AForm("RoboromyRequestForm", 72, 45), _target(target) {
+	std::cout << "RobotomyRequestForm with target " << _target << " was created"  << std::endl;
+}
 
 RobotomyRequestForm::RobotomyRequestForm(const RobotomyRequestForm& other): _target(other._target){}
 
@@ -27,7 +33,7 @@ RobotomyRequestForm& RobotomyRequestForm::operator=(const RobotomyRequestForm& o
 	return *this;
 }
 
-const char* RobotomyRequestForm::RobotomyException::what() const throw() {
+const char* RobotomyRequestForm::RobotomyException::what() const noexcept {
 	return "Robotomy failed";
 }
 

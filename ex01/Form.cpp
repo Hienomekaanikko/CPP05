@@ -6,13 +6,15 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:17:02 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/30 10:52:30 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/10/02 14:05:54 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Form.hpp"
 
-Form::Form(): _name("defaultForm"), _signed(false), _grade(1), _execGrade(10) {}
+Form::Form(): _name("defaultForm"), _signed(false), _grade(1), _execGrade(10) {
+	std::cout << "Form " << _name << " was created"  << std::endl;
+}
 
 int Form::validateGrade(const int grade) {
 	if (grade > 150)
@@ -27,9 +29,12 @@ Form::Form(const std::string& name, const int grade, const int execGrade):
 	_grade(validateGrade(grade)),
 	_execGrade(validateGrade(execGrade)) {
 		_signed = false;
+		std::cout << "Form " << _name << " was created" << std::endl;
 	}
 
-Form::~Form() {}
+Form::~Form() {
+	std::cout << "Form " << _name << " was thrown in the bin" << "\n";
+}
 
 Form::Form(const Form& other):
 	_name(other._name),
@@ -53,17 +58,23 @@ int Form::getExecGrade() const {
 	return _execGrade;
 }
 
-const char* Form::GradeTooLowException::what() const throw() {
-	return "Form: Grade too low";
+const char* Form::GradeTooLowException::what() const noexcept {
+	return "grade too low";
 }
 
-const char* Form::GradeTooHighException::what() const throw() {
-	return "Form: Grade too high";
+const char* Form::GradeTooHighException::what() const noexcept {
+	return "grade too high";
+}
+
+const char* Form::AlreadySignedException::what() const noexcept {
+	return "the form is already signed";
 }
 
 void Form::beSigned(Bureaucrat& SuitGuy) {
 	if (SuitGuy.getGrade() > _grade)
 		throw GradeTooLowException();
+	if (_signed == true)
+		throw AlreadySignedException();
 	_signed = true;
 	std::cout << SuitGuy.getName() << " signed the " << _name << "\n";
 }

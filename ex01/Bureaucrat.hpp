@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:13:24 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/29 16:05:18 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/10/02 10:28:53 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ class Bureaucrat {
 		void signForm(Form& form);
 
 		class GradeTooHighException : public std::exception {
-			const char *what() const throw();
+			const char *what() const noexcept override;
 		};
 		class GradeTooLowException : public std::exception {
-			const char *what() const throw();
+			const char *what() const noexcept override;
 		};
 };
 

@@ -36,13 +36,16 @@ class AForm {
 		void execute(Bureaucrat const & executor) const;
 
 		class GradeTooHighException : public std::exception {
-			const char *what() const throw();
+			const char *what() const noexcept override;
 		};
 		class GradeTooLowException : public std::exception {
-			const char *what() const throw();
+			const char *what() const noexcept override;
 		};
 		class FormNotSignedException : public std::exception {
-			const char *what() const throw();
+			const char *what() const noexcept override;
+		};
+		class AlreadySignedException : public std::exception {
+			const char *what() const noexcept override;
 		};
 };
 

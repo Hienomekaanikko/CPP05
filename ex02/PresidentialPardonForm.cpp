@@ -6,17 +6,23 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 10:56:47 by msuokas           #+#    #+#             */
-/*   Updated: 2025/10/01 09:51:55 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/10/02 14:20:29 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PresidentialPardonForm.hpp"
 
-PresidentialPardonForm::PresidentialPardonForm(): AForm("DefaultPersidentialPardon", 25, 5), _target("default_target"){}
+PresidentialPardonForm::PresidentialPardonForm(): AForm("DefaultPersidentialPardon", 25, 5), _target("default_target"){
+	std::cout << "PresidentialPardonForm with target " << _target << " was created"  << std::endl;
+}
 
-PresidentialPardonForm::~PresidentialPardonForm() {}
+PresidentialPardonForm::~PresidentialPardonForm() {
+	std::cout << "PresidentialPardonForm with " << _target << " was trown into bin"  << std::endl;
+}
 
-PresidentialPardonForm::PresidentialPardonForm(const std::string& target): AForm("PresidentialPardon", 25, 5), _target(target){}
+PresidentialPardonForm::PresidentialPardonForm(const std::string& target): AForm("PresidentialPardon", 25, 5), _target(target){
+	std::cout << "PresidentialPardonForm with target " << _target << " was created"  << std::endl;
+}
 
 PresidentialPardonForm::PresidentialPardonForm(const PresidentialPardonForm& other): _target(other._target){}
 
