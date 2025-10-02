@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:29 by msuokas           #+#    #+#             */
-/*   Updated: 2025/10/01 13:40:41 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/10/02 15:18:31 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ Intern::~Intern(){}
 Intern::Intern(const Intern& other) {}
 
 AForm* Intern::makeForm(const std::string& formName, const std::string& formTarget) {
-	std::string forms[] = {"PresidentialPardonForm", "RobotomyRequestForm", "ShrubberyCreationForm"};
+	std::string forms[] = {"presidential pardon", "robotomy request", "shrubbery creation"};
 
 	AForm* (*formCreators[])(const std::string&) = {
 		[](const std::string& target) -> AForm* { return new PresidentialPardonForm(target); },
@@ -32,10 +32,10 @@ AForm* Intern::makeForm(const std::string& formName, const std::string& formTarg
 			return formCreators[i](formTarget);
 		}
 	}
-	std::cout << "Intern: No such form \"" << formName << "\"" << std::endl;
+	throw InternException();
 	return NULL;
 }
 
-const char* Intern::InternException::what() const throw() {
-	return "Such form does not exist";
+const char* Intern::InternException::what() const noexcept {
+	return "such form does not exist";
 }

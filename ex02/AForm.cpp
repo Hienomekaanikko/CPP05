@@ -12,7 +12,9 @@
 
 #include "AForm.hpp"
 
-AForm::AForm(): _name("defaultForm"), _signed(false), _grade(1), _execGrade(10) {}
+AForm::AForm(): _name("defaultForm"), _signed(false), _grade(1), _execGrade(10) {
+	std::cout << "AForm " << _name << " was created"  << std::endl;
+}
 
 int AForm::validateGrade(const int grade) {
 	if (grade > 150)
@@ -27,9 +29,12 @@ AForm::AForm(const std::string& name, const int grade, const int execGrade):
 	_grade(validateGrade(grade)),
 	_execGrade(validateGrade(execGrade)) {
 		_signed = false;
+		std::cout << "AForm " << _name << " was created"  << std::endl;
 	}
 
-AForm::~AForm() {}
+AForm::~AForm() {
+	std::cout << "AForm " << _name << " was thrown into bin"  << std::endl;
+}
 
 AForm::AForm(const AForm& other):
 	_name(other._name),
@@ -53,21 +58,27 @@ int AForm::getExecGrade() const {
 	return _execGrade;
 }
 
-const char* AForm::GradeTooLowException::what() const throw() {
+const char* AForm::GradeTooLowException::what() const noexcept  {
 	return "grade too low";
 }
 
-const char* AForm::GradeTooHighException::what() const throw() {
+const char* AForm::GradeTooHighException::what() const noexcept  {
 	return "grade too high";
 }
 
-const char* AForm::FormNotSignedException::what() const throw() {
+const char* AForm::FormNotSignedException::what() const noexcept  {
 	return "form is not signed for execution";
+}
+
+const char* AForm::AlreadySignedException::what() const noexcept {
+	return "the form is already signed";
 }
 
 void AForm::beSigned(Bureaucrat& SuitGuy) {
 	if (SuitGuy.getGrade() > _grade)
 		throw GradeTooLowException();
+	if (_signed == true)
+		throw AlreadySignedException();
 	_signed = true;
 	std::cout <<  "\033[1;36m" << SuitGuy.getName() << " signed the " << _name << "\n" << "\033[0m";
 }

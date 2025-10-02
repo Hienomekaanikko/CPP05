@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 10:57:24 by msuokas           #+#    #+#             */
-/*   Updated: 2025/10/01 10:52:58 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/10/02 10:32:16 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ class RobotomyRequestForm : public AForm {
 		std::string getTarget() const;
 
 		class RobotomyException : public std::exception {
-			const char *what() const throw();
+			const char *what() const noexcept override;
 		};
 };

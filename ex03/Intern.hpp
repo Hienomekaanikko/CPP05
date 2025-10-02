@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 13:13:26 by msuokas           #+#    #+#             */
-/*   Updated: 2025/10/01 13:40:12 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/10/02 10:36:47 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,6 @@ class Intern : public Bureaucrat {
 
 		AForm* makeForm(const std::string& formName, const std::string& formTarget);
 		class InternException : public std::exception {
-			const char *what() const throw();
+			const char *what() const noexcept override;
 		};
 };

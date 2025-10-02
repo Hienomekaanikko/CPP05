@@ -6,7 +6,7 @@
 /*   By: msuokas <msuokas@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 14:17:00 by msuokas           #+#    #+#             */
-/*   Updated: 2025/09/29 16:03:59 by msuokas          ###   ########.fr       */
+/*   Updated: 2025/10/02 13:25:50 by msuokas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,13 @@ class Form {
 		int validateGrade(const int grade);
 
 		class GradeTooHighException : public std::exception {
-			const char *what() const throw();
+			const char *what() const noexcept override;
 		};
 		class GradeTooLowException : public std::exception {
-			const char *what() const throw();
+			const char *what() const noexcept override;
+		};
+		class AlreadySignedException : public std::exception {
+			const char *what() const noexcept override;
 		};
 };
 
